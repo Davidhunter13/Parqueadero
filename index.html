@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Playball&display=swap"
+        rel="stylesheet">
+</head>
+
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+        font-family: "Lexend", sans-serif;
+    }
+
+    h1 {
+        text-align: center;
+        background-color: rgb(71, 71, 71);
+        color: #fff;
+    }
+
+    h2 {
+        text-align: center;
+        background-color: rgb(71, 71, 71);
+        color: #fff;
+        font-size: 1.8rem;
+    }
+
+    h3 {
+        /* background-color: rgb(194, 194, 194); */
+        color: #141414;
+        font-size: 1.6rem;
+    }
+
+    h4 {
+        background-color: rgb(194, 194, 194);
+        color: #141414;
+        font-size: 1.3rem;
+    }
+
+    .container-fluid {
+        padding: 0px 20px;
+        margin: 0px;
+        height: 100%;
+    }
+
+    .container-fluid .row {
+        margin: 0px;
+        padding: 0px;
+        height: 100%;
+    }
+
+    .container-fluid .row .contenedor {
+        padding: 10px;
+    }
+
+    .container-fluid .row .contenedor .cont {
+        background-color: rgb(245, 244, 244);
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.274);
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        text-align: center;
+        height: 100%;
+    }
+
+    .campos_scroll {
+        height: 150px;
+        overflow-y: scroll;
+        margin-bottom: 10px;
+    }
+
+    .campo {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        background-color: rgb(224, 222, 222);
+        border-bottom: 2px solid rgb(151, 151, 151);
+        padding: 5px;
+    }
+
+    .campo_motos {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 10px;
+        background-color: rgb(224, 222, 222);
+        border-bottom: 2px solid rgb(151, 151, 151);
+        padding: 5px;
+    }
+
+    .campo_fisico {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 10px;
+        background-color: rgb(224, 222, 222);
+        border-bottom: 2px solid rgb(151, 151, 151);
+        padding: 5px;
+    }
+
+    .campo_fisico label {
+        width: 40%;
+        text-align: start;
+    }
+
+    .carros_num {
+        display: none;
+    }
+
+    .motos_num {
+        display: none;
+    }
+
+    .total {
+        display: none;
+    }
+
+    input {
+        width: 70px !important;
+    }
+
+    .btn {
+        margin-bottom: 10px;
+        width: 100%;
+        font-size: 0.8rem;
+    }
+
+    #contenedor-personas {
+        display: flex !important;
+        flex-direction: row;
+        height: max-content !important;
+    }
+
+    .personas_cont {
+        margin: 10px 0px !important;
+        border-bottom: 6px double rgb(138, 137, 137);
+        border-top: 6px double rgb(138, 137, 137);
+        height: max-content !important;
+    }
+
+    .personas {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
+
+<body>
+
+    <h1>PARQUEADERO</h1>
+    <div class="container-fluid">
+        <div class="row ">
+            <div class="col-lg-8 col-md-12 col-sm-12 contenedor">
+                <div class="row cont">
+                    <div class="col-lg-6 col-md-12 col-sm-12 ">
+                        <h2>Tickets Carros</h2>
+                        <button id="agregarCampo" class="btn bg-success opacity-75 text-white">+ Agregar Campo</button>
+                        <button id="quitarCampo" class="btn bg-danger opacity-75 text-white">- Quitar Campo</button>
+                        <div id="campos" class="campos_scroll">
+                            <!-- Los campos dinámicos se agregarán aquí -->
+                        </div>
+                        <h4 id="total">Total Tickets Carros: $0</h4>
+                        <h3 id="total_carros_num" class="total"></h3>
+                        <h4 id="total_carros_devoluciones">Devoluciones: $0</h4>
+                        <div class="d-flex align-items-center justify-content-center" style="gap:10px">
+                            <label for="">Devoluciones Carros</label>
+                            <input type="number" class="form-control" name="" id="dev_carros">
+                        </div>
+                        <h4 class="bg-dark text-white mt-2">Devoluciones - Tickets Carros: <br> <span
+                                id="total_carros_final">$0</span> </h4>
+                    </div>
+                    <div class="col-lg-6 col-md-12 col-sm-12 ">
+                        <h2>Tickets Motos</h2>
+                        <button id="agregarCampoMotos" class="btn bg-success opacity-75 text-white">+ Agregar
+                            Campo</button>
+                        <button id="quitarCampoMotos" class="btn bg-danger opacity-75 text-white">- Quitar
+                            Campo</button>
+                        <div id="campos_motos" class="campos_scroll">
+                            <!-- Los campos dinámicos se agregarán aquí -->
+                        </div>
+                        <h4 id="total_motos">Total Tickets Motos: $0</h4>
+                        <h3 id="total_motos_num" class="total"></h3>
+                        <h4 id="total_motos_devoluciones">Devoluciones: $0</h4>
+                        <div class="d-flex align-items-center justify-content-center" style="gap:10px">
+                            <label for="">Devoluciones Motos</label>
+                            <input type="number" class="form-control" name="" id="dev_motos">
+                        </div>
+                        <h4 class="bg-dark text-white mt-2">Devoluciones - Tickets Motos: <br> <span
+                                id="total_motos_final">$0</span> </h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 contenedor">
+                <div class="cont" style="flex-direction: column;">
+                    <h2>Dinero Físico</h2>
+                    <div id="billetes">
+                        <div class="campo_fisico">
+                            <label>Billetes de 100,000</label>
+                            <input type="number" id="cien" min="0" class="fisico form-control" data-value="100000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 50,000</label>
+                            <input type="number" id="cincuenta" min="0" class="fisico form-control" data-value="50000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 20,000</label>
+                            <input type="number" id="veintemil" min="0" class="fisico form-control" data-value="20000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 10,000</label>
+                            <input type="number" id="diez_mil" min="0" class="fisico form-control" data-value="10000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 5,000</label>
+                            <input type="number" id="cincomil" min="0" class="fisico form-control" data-value="5000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 2,000</label>
+                            <input type="number" id="dosmil" min="0" class="fisico form-control" data-value="2000">
+                            <span> - </span>
+                            <span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-8 col-md-12 col-sm-12 contenedor">
+                <h3 id="total_tickeds" class="bg-dark opacity-50 text-white p-2">Total Tickeds : $0</h3>
+                <h3 id="total_tickeds_num" class="d-none"></h3>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 contenedor">
+                <h3 id="total_fisico" class="bg-dark opacity-50 text-white p-2">Total Físico : $0</h3>
+                <h3 id="total_fisico_num" class="d-none"></h3>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12 contenedor text-center bg-danger">
+                <h3 id="total_diferencia" class="m-0 text-white">Total Diferencia: $0</h3>
+            </div>
+
+            <div class="col-lg-8 col-md-12 col-sm-12 contenedor text-center mt-4 pt-3"
+                style="border-top:2px solid black">
+                <h2 class="bg-dark">Salarios personas</h3>
+                    <button class="btn bg-success text-white" onclick="agregarPersona()">Añadir Persona</button>
+                    <div id="contenedor-personas" class="row"></div>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 contenedor " style="height: max-content;">
+                <div class="cont" style="flex-direction: column;">
+                    <h2>Recuento de Dinero Físico</h2>
+                    <div id="billetes1">
+                        <div class="campo_fisico">
+                            <label>Billetes de 100,000</label>
+                            <p class="m-0" id="b-cien" data-value-b="100000"></p>
+                            <span> - </span>
+                            <span id="p-total-cien"></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 50,000</label>
+                            <p class="m-0" id="b-cincuenta" data-value-b="50000"></p>
+                            <span> - </span>
+                            <span id="p-total-cincuenta"></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 20,000</label>
+                            <p class="m-0" id="b-veinte" data-value-b="20000"></p>
+                            <span> - </span>
+                            <span id="p-total-veinte"></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 10,000</label>
+                            <p class="m-0" id="b-diez" data-value-b="10000"></p>
+                            <span> - </span>
+                            <span id="p-total-diez"></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 5,000</label>
+                            <p class="m-0" id="b-cinco" data-value-b="5000"></p>
+                            <span> - </span>
+                            <span id="p-total-cinco"></span>
+                        </div>
+                        <div class="campo_fisico">
+                            <label>Billetes de 2,000</label>
+                            <p class="m-0" id="b-dos" data-value-b="2000"></p>
+                            <span> - </span>
+                            <span id="p-total-dos"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-8 col-md-12 col-sm-12 contenedor mb-3  text-center bg-primary personas">
+                <h3 id="total_personas_definitivo" class="m-0 text-white">Total personas: $0</h3>
+            </div>
+
+            <div class="col-lg-4 col-md-12 col-sm-12 contenedor mb-3  text-center bg-primary opacity-75">
+                <h3 id="total_recuento" class="m-0 text-white">Total recuento de Dinero Físico: <br> $0</h3>
+                <input type="number" class="d-none" id="recuento_final">
+                
+            </div>
+
+            <div class="col-lg-12 col-md-12 col-sm-12 contenedor mb-3  text-center ">
+                <h3 class="m-0 text-white bg-secondary opacity-75">Calcular porcentajes</h3>
+                <div class="d-flex personas row" style="flex-direction: row;">
+                    <div class="d-flex col-lg-6 col-md-12 personas" style="gap: 10px;">
+                        <p class="m-0" >Porcentaje de</p>
+                        <input id="porcentaje1" class="form-control" type="number" value="0">
+                        <span>% es igual a =</span>
+                        <span id="valorParcial">$0</span>
+                    </div>
+                    <div class="d-flex col-lg-6 col-md-12 personas" style="gap: 10px;">
+                        <p class="m-0">Porcentaje de</p>
+                        <input id="porcentaje2" class="form-control" disabled type="number" value="0">
+                        <span>% es igual a =</span>
+                        <span id="valorParcial2">$0</span>
+                    </div>
+
+                    <div class="d-flex col-lg-12 col-md-12 personas" style="gap: 10px;flex-direction: row;">
+                        <button onclick="porcentaje()" class="btn bg-success text-white" style="width:max-content">calcular Porcentaje</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+
+    <script>
+
+        function porcentaje() {
+
+            var valor_total_final = document.getElementById('recuento_final').value;
+            var porcentajeDeseado = document.getElementById('porcentaje1');
+            var porcentajeDeseado2 = document.getElementById('porcentaje2');
+            var parcial =document.getElementById('valorParcial');
+            var parcial2 =document.getElementById('valorParcial2');
+
+            if (porcentajeDeseado.value > 100) {
+                alert('El porcentaje no puede ser mayor a 100');
+                porcentajeDeseado.value = 0
+                porcentajeDeseado2.value = 0
+            } else {
+                var residuo = 100 -porcentajeDeseado.value
+                porcentajeDeseado2.value = residuo;
+
+                var valorParcial = (porcentajeDeseado.value / 100) * valor_total_final;
+                parcial.textContent = '$'+valorParcial.toLocaleString()
+
+                var valorParcial2 = (porcentajeDeseado2.value / 100) * valor_total_final;
+                parcial2.textContent = '$'+valorParcial2.toLocaleString()
+            }
+
+    
+        }
+
+        function agregarPersona() {
+            var nombre = prompt("Ingrese el nombre de la persona:");
+            if (nombre) {
+                var personContainer = document.createElement('div');
+                personContainer.classList.add('person-container');
+                personContainer.classList.add('row');
+                personContainer.classList.add('personas_cont');
+
+                personContainer.innerHTML += '<div class="col-lg-4 col-md-12 col-sm-12 total">';
+                personContainer.innerHTML += '<h3>' + nombre + '</h3>';
+
+                // Agregar los campos de billetes dentro de un div con la clase "row"
+                personContainer.innerHTML += '<div class="">';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="100000">Billete de $100.000:<input type="number"  class="billete form-control cien_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="50000">Billete de $50.000:<input type="number" class="billete form-control cincuenta_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="20000">Billete de $20.000:<input type="number" class="billete form-control venite_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="10000">Billete de $10.000:<input type="number" class="billete form-control diez_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="5000">Billete de $5.000:<input type="number" class="billete form-control cinco_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '<div class="campo_motos col-lg-4 col-md-6 col-sm-12" atributo="2000">Billete de $2.000:<input type="number" class="billete form-control dos_per" value=""> <span class="total_billete">0</span><span class="total_billete_num d-none">0</span></div>';
+                personContainer.innerHTML += '</div>';
+
+                // Agregar botón para quitar a la persona
+                personContainer.innerHTML += '<button style="width: max-content;" class="btn btn-danger opacity-75 btn-sm mt-3 mb-3 remove-person">Quitar persona</button>';
+
+                personContainer.innerHTML += '<div class="col-lg-4 col-md-12 col-sm-12">';
+                personContainer.innerHTML += '<div>Total: <span class="total_persona">0</span></div>';
+                personContainer.innerHTML += '<div class="d-none">Total: <span class="total_persona_num">0</span></div>';
+                personContainer.innerHTML += '</div>'; // Cierre del div con las clases "col-*"
+
+                document.getElementById('contenedor-personas').appendChild(personContainer);
+
+                // Agregar event listener para cada campo de billete
+                var billetes = personContainer.querySelectorAll('.billete');
+                billetes.forEach(function (billete) {
+                    billete.addEventListener('input', calcularTotalPerosna);
+                });
+
+                // Agregar event listener para el botón de quitar persona
+                var removeButton = personContainer.querySelector('.remove-person');
+                if (removeButton) {
+                    removeButton.addEventListener('click', function () {
+                        personContainer.remove();
+                        calcularTotalPerosnaDefinitivo()
+                        recuento()
+                    });
+                }
+            }
+        }
+
+
+        function calcularTotalPerosna() {
+            recuento()
+            var inputBillete = parseFloat(this.value);
+
+            // Obtener el valor del billete del atributo 'atributo'
+            var billeteLabel = parseFloat(this.parentNode.getAttribute('atributo'));
+            var labelBillete = isNaN(billeteLabel) ? 0 : billeteLabel; // Asegurar que sea un número válido
+
+            var total_billete = isNaN(inputBillete) ? 0 : inputBillete * labelBillete;
+
+            var totalBilleteElement = this.parentNode.querySelector('.total_billete');
+            var totalBilleteElementNum = this.parentNode.querySelector('.total_billete_num');
+            if (totalBilleteElement) {
+                totalBilleteElement.innerText = 'Total billete: $' + total_billete.toLocaleString();
+                totalBilleteElementNum.innerText = total_billete
+            }
+
+            // Calcular el total de todos los billetes
+            var total_persona = 0;
+            var totalBilleteSpans = document.querySelectorAll('.total_billete_num');
+            totalBilleteSpans.forEach(function (span) {
+                total_persona += parseFloat(span.innerText.replace('Total billete: ', ''));
+            });
+
+            var personContainer = this.closest('.person-container');
+
+            // Calcular el total de los billetes para esta persona
+            var total_persona = 0;
+            var billetes = personContainer.querySelectorAll('.billete');
+            billetes.forEach(function (billete) {
+                var inputBillete = parseFloat(billete.value);
+                var billeteLabel = parseFloat(billete.parentNode.getAttribute('atributo'));
+                var labelBillete = isNaN(billeteLabel) ? 0 : billeteLabel;
+                var total_billete = isNaN(inputBillete) ? 0 : inputBillete * labelBillete;
+                total_persona += total_billete;
+            });
+
+            // Actualizar el total de la persona actual
+            var totalPersonaElement = personContainer.querySelector('.total_persona');
+            var totalPersonaElementNum = personContainer.querySelector('.total_persona_num');
+            if (totalPersonaElement) {
+                totalPersonaElement.innerText = '$' + total_persona.toLocaleString();
+                totalPersonaElementNum.innerText = total_persona;
+            }
+            calcularTotalPerosnaDefinitivo()
+        }
+
+
+        function calcularTotalPerosnaDefinitivo() {
+            // Obtener todos los elementos <span> con la clase "total_persona_num"
+            var totalPersonaNumSpans = document.querySelectorAll('.total_persona_num');
+
+            // Inicializar la variable para almacenar la suma total
+            var total_personas = 0;
+
+            // Iterar sobre cada <span> y sumar su valor convertido a número
+            totalPersonaNumSpans.forEach(function (span) {
+                total_personas += parseFloat(span.innerText);
+            });
+
+            // Mostrar el total de todas las personas en el elemento con id "total_personas_definitivo"
+            var totalPersonasDefinitivo = document.getElementById('total_personas_definitivo');
+            if (totalPersonasDefinitivo) {
+                totalPersonasDefinitivo.innerText = 'Total personas: $' + total_personas.toLocaleString();
+            }
+        }
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            // carros
+            const total_tickeds_definitivo = document.getElementById('total_tickeds');
+            const total_tickeds_definitivo_num = document.getElementById('total_tickeds_num');
+            const camposContainer = document.getElementById('campos');
+            const agregarCampoBtn = document.getElementById('agregarCampo');
+            const quitarCampoBtn = document.getElementById('quitarCampo');
+            const totalContainer = document.getElementById('total');
+            const totalContainerNum = document.getElementById('total_carros_num');
+            const dev_carros = document.getElementById('dev_carros');
+            const total_dev_carros = document.getElementById('total_carros_devoluciones');
+            const total_carros_final = document.getElementById('total_carros_final');
+
+            let total = 0;
+
+            agregarCampoBtn.addEventListener('click', function () {
+                agregarCampo();
+            });
+
+            quitarCampoBtn.addEventListener('click', function () {
+                quitarCampo();
+            });
+
+            dev_carros.addEventListener('input', function () {
+                devolucion_Carros()
+            });
+
+
+            function agregarCampo() {
+                const nuevoCampo = document.createElement('div');
+                nuevoCampo.classList.add('campo');
+
+                const label = document.createElement('label');
+                label.textContent = 'Tickets de carro: ';
+
+                const input = document.createElement('input');
+                input.classList.add('form-control');
+                // input.value = 0;
+                input.type = 'number';
+                input.min = 0;
+
+                const resultado = document.createElement('span');
+                resultado.classList.add('carros');
+                resultado.textContent = '';
+
+                const resultado_num = document.createElement('span');
+                resultado_num.classList.add('carros_num');
+                resultado_num.textContent = '';
+
+                input.addEventListener('input', function () {
+                    const valor = parseFloat(input.value);
+                    const subtotal = isNaN(valor) ? 0 : valor * 7000;
+                    resultado.textContent = subtotal.toLocaleString();
+                    resultado_num.textContent = subtotal;
+                    calcularTotal();
+                });
+
+                nuevoCampo.appendChild(label);
+                nuevoCampo.appendChild(input);
+                nuevoCampo.appendChild(document.createTextNode(' Total: $'));
+                nuevoCampo.appendChild(resultado);
+                nuevoCampo.appendChild(resultado_num);
+                camposContainer.appendChild(nuevoCampo);
+            }
+
+            function quitarCampo() {
+                const campos = camposContainer.querySelectorAll('.campo');
+                if (campos.length > 0) {
+                    campos[campos.length - 1].remove();
+                    calcularTotal();
+                }
+            }
+
+            function calcularTotal() {
+                const ticked_carro = camposContainer.querySelectorAll('.carros_num');
+                let total = 0;
+                ticked_carro.forEach(function (carro) {
+                    const valor = parseFloat(carro.textContent);
+                    if (!isNaN(valor)) {
+                        total += valor;
+                    }
+                });
+                totalContainer.textContent = 'Total Tickets Carros: $' + total.toLocaleString();
+                totalContainerNum.textContent = total - dev_carros.value * 7000;;
+                var final_carros = total - dev_carros.value * 7000;
+                total_carros_final.textContent = '$' + final_carros.toLocaleString();
+                calcularTotalDefinitivo()
+                // devolucion_Carros()
+            }
+
+            function devolucion_Carros() {
+                var devolucion_carros = dev_carros.value * 7000
+                total_dev_carros.textContent = 'Devoluciones: $' + devolucion_carros.toLocaleString()
+                calcularTotal()
+            }
+
+            // Motos 
+
+            const camposContainerMotos = document.getElementById('campos_motos');
+            const agregarCampoBtnMotos = document.getElementById('agregarCampoMotos');
+            const quitarCampoBtnMotos = document.getElementById('quitarCampoMotos');
+            const totalContainerMotos = document.getElementById('total_motos');
+            const totalContainerMotosNum = document.getElementById('total_motos_num');
+            const dev_motos = document.getElementById('dev_motos');
+            const total_dev_motos = document.getElementById('total_motos_devoluciones');
+            const total_motos_final = document.getElementById('total_motos_final');
+
+            let total_motos = 0;
+
+            agregarCampoBtnMotos.addEventListener('click', function () {
+                agregarCampoMotos();
+            });
+
+            quitarCampoBtnMotos.addEventListener('click', function () {
+                quitarCampoMotos();
+            });
+
+            dev_motos.addEventListener('input', function () {
+                devolucion_motos()
+            });
+
+
+            function agregarCampoMotos() {
+                const nuevoCampoMotos = document.createElement('div');
+                nuevoCampoMotos.classList.add('campo_motos');
+
+                const labelMotos = document.createElement('label');
+                labelMotos.textContent = 'Tickets de motos: ';
+
+                const inputMotos = document.createElement('input');
+                inputMotos.classList.add('form-control');
+                inputMotos.type = 'number';
+                inputMotos.min = 0;
+
+                const resultadoMotos = document.createElement('span');
+                resultadoMotos.classList.add('motos');
+                resultadoMotos.textContent = '';
+
+                const resultado_numMotos = document.createElement('span');
+                resultado_numMotos.classList.add('motos_num');
+                resultado_numMotos.textContent = '';
+
+                inputMotos.addEventListener('input', function () {
+                    const valorMotos = parseFloat(inputMotos.value);
+                    const subtotalMotos = isNaN(valorMotos) ? 0 : valorMotos * 5000;
+                    resultadoMotos.textContent = subtotalMotos.toLocaleString();
+                    resultado_numMotos.textContent = subtotalMotos;
+                    calcularTotalMotos();
+                });
+
+                nuevoCampoMotos.appendChild(labelMotos);
+                nuevoCampoMotos.appendChild(inputMotos);
+                nuevoCampoMotos.appendChild(document.createTextNode(' Total: $'));
+                nuevoCampoMotos.appendChild(resultadoMotos);
+                nuevoCampoMotos.appendChild(resultado_numMotos);
+                camposContainerMotos.appendChild(nuevoCampoMotos);
+            }
+
+            function quitarCampoMotos() {
+                const camposMotos = camposContainerMotos.querySelectorAll('.campo_motos');
+                if (camposMotos.length > 0) {
+                    camposMotos[camposMotos.length - 1].remove();
+                    calcularTotalMotos();
+                }
+            }
+
+            function calcularTotalMotos() {
+                const ticked_moto = camposContainerMotos.querySelectorAll('.motos_num');
+                let total_motos = 0;
+                ticked_moto.forEach(function (moto) {
+                    const valorMotos = parseFloat(moto.textContent);
+                    if (!isNaN(valorMotos)) {
+                        total_motos += valorMotos;
+                    }
+                });
+                totalContainerMotos.textContent = 'Total Tickets Motos: $' + total_motos.toLocaleString();
+                totalContainerMotosNum.textContent = total_motos - dev_motos.value * 5000;
+                var final_motos = total_motos - dev_motos.value * 5000;
+                total_motos_final.textContent = '$' + final_motos.toLocaleString();
+                calcularTotalDefinitivo()
+                // devolucion_motos()
+            }
+
+            function devolucion_motos() {
+                var devolucion_motos = dev_motos.value * 5000
+                total_dev_motos.textContent = 'Devoluciones: $' + devolucion_motos.toLocaleString()
+                calcularTotalMotos()
+            }
+
+            function calcularTotalDefinitivo() {
+                var motos_definitivo = parseFloat(totalContainerMotosNum.textContent) || 0; // Si no se puede convertir a número, asigna 0
+                var carros_definitivo = parseFloat(totalContainerNum.textContent) || 0; // Si no se puede convertir a número, asigna 0
+                var suma_total = motos_definitivo + carros_definitivo;
+                total_tickeds_definitivo.textContent = 'Total Tickeds : $' + suma_total.toLocaleString();
+                total_tickeds_definitivo_num.textContent = suma_total;
+                calcularDiferencia()
+            }
+
+
+            // DINERO FISICO 
+
+            const billetesContainer = document.getElementById('billetes');
+            const inputs = billetesContainer.querySelectorAll('.fisico');
+            const totalContainerFisico = document.getElementById('total_fisico');
+            const totalContainerFisicoNum = document.getElementById('total_fisico_num');
+
+            inputs.forEach(function (input_fisico) {
+                input_fisico.addEventListener('input', function () {
+                    const cantidad = parseFloat(input_fisico.value);
+                    const valor = parseFloat(input_fisico.getAttribute('data-value'));
+                    const subtotal = isNaN(cantidad) ? 0 : cantidad * valor;
+                    input_fisico.nextElementSibling.nextElementSibling.textContent = '$' + subtotal.toLocaleString();
+                    calcularTotalFisico();
+                });
+            });
+
+            function calcularTotalFisico() {
+                let total_fisico = 0;
+                inputs.forEach(function (input) {
+                    const cantidad = parseFloat(input.value);
+                    const valor_fisico = parseFloat(input.getAttribute('data-value'));
+                    const subtotal_fisico = isNaN(cantidad) ? 0 : cantidad * valor_fisico;
+                    total_fisico += subtotal_fisico;
+                });
+                totalContainerFisico.textContent = 'Total Físico : $' + total_fisico.toLocaleString();
+                totalContainerFisicoNum.textContent = total_fisico
+                calcularDiferencia()
+                recuento()
+            }
+
+            // DIFERENCIA  
+            const diferencia = document.getElementById('total_diferencia');
+
+
+            function calcularDiferencia() {
+                var resta = totalContainerFisicoNum.textContent - total_tickeds_definitivo_num.textContent
+                // if (resta < 0) {
+                //     // Si es negativa, tomar el valor absoluto y mostrarlo
+                //     resta = Math.abs(resta);
+                // }
+                diferencia.textContent = 'Total Diferencia: $' + resta.toLocaleString();
+            }
+
+
+        });
+
+        function recuento() {
+            const billetesContainer = document.getElementById('billetes1');
+            const b_cien = document.getElementById('b-cien');
+            const cien = document.getElementById('cien').value;
+            const p_total_cien = document.getElementById('p-total-cien');
+            const totalrecuento = document.getElementById('total_recuento');
+            const totalrecuentof = document.getElementById('recuento_final');
+
+            // Obtener todos los elementos <input> con la clase "cien_per"
+            var inputs_per_cien = document.getElementsByClassName('cien_per');
+            var suma_per_cien = 0;
+
+            for (var i = 0; i < inputs_per_cien.length; i++) {
+                var valor_per_cien = parseFloat(inputs_per_cien[i].value);
+                if (!isNaN(valor_per_cien)) {
+                    suma_per_cien += valor_per_cien;
+                }
+            }
+
+            b_cien.textContent = cien - suma_per_cien
+            var total_cien = (cien - suma_per_cien) * 100000
+            p_total_cien.textContent = '$' + total_cien.toLocaleString()
+
+            const b_cincuenta = document.getElementById('b-cincuenta');
+            const cincuenta = document.getElementById('cincuenta').value;
+            const p_total_cincuenta = document.getElementById('p-total-cincuenta');
+
+            var inputs_per_cincuenta = document.getElementsByClassName('cincuenta_per');
+            var suma_per_cincuenta = 0;
+
+            for (var i = 0; i < inputs_per_cincuenta.length; i++) {
+                var valor_per_cincuenta = parseFloat(inputs_per_cincuenta[i].value);
+                if (!isNaN(valor_per_cincuenta)) {
+                    suma_per_cincuenta += valor_per_cincuenta;
+                }
+            }
+
+            b_cincuenta.textContent = cincuenta - suma_per_cincuenta
+            var total_cincuenta = (cincuenta - suma_per_cincuenta) * 50000
+            p_total_cincuenta.textContent = '$' + total_cincuenta.toLocaleString()
+
+
+            const b_veinte = document.getElementById('b-veinte');
+            const veintemil = document.getElementById('veintemil').value;
+            const p_total_veinte = document.getElementById('p-total-veinte');
+
+            var inputs_per_veinte = document.getElementsByClassName('venite_per');
+            var suma_per_veinte = 0;
+
+            for (var i = 0; i < inputs_per_veinte.length; i++) {
+                var valor_per_veinte = parseFloat(inputs_per_veinte[i].value);
+                if (!isNaN(valor_per_veinte)) {
+                    suma_per_veinte += valor_per_veinte;
+                }
+            }
+
+            b_veinte.textContent = veintemil - suma_per_veinte
+            var total_veinte = (veintemil - suma_per_veinte) * 20000
+            p_total_veinte.textContent = '$' + total_veinte.toLocaleString()
+
+            const b_diez = document.getElementById('b-diez');
+            const diez_mil = document.getElementById('diez_mil').value;
+            const p_total_diez = document.getElementById('p-total-diez');
+
+            var inputs_per_diez = document.getElementsByClassName('diez_per');
+            var suma_per_diez = 0;
+
+            for (var i = 0; i < inputs_per_diez.length; i++) {
+                var valor_per_diez = parseFloat(inputs_per_diez[i].value);
+                if (!isNaN(valor_per_diez)) {
+                    suma_per_diez += valor_per_diez;
+                }
+            }
+
+            b_diez.textContent = diez_mil - suma_per_diez
+            var total_diez = (diez_mil - suma_per_diez) * 10000
+            p_total_diez.textContent = '$' + total_diez.toLocaleString()
+
+
+            const b_cinco = document.getElementById('b-cinco');
+            const cincomil = document.getElementById('cincomil').value;
+            const p_total_cinco = document.getElementById('p-total-cinco');
+
+            var inputs_per_cinco = document.getElementsByClassName('cinco_per');
+            var suma_per_cinco = 0;
+
+            for (var i = 0; i < inputs_per_cinco.length; i++) {
+                var valor_per_cinco = parseFloat(inputs_per_cinco[i].value);
+                if (!isNaN(valor_per_cinco)) {
+                    suma_per_cinco += valor_per_cinco;
+                }
+            }
+
+            b_cinco.textContent = cincomil - suma_per_cinco
+            var total_cinco = (cincomil - suma_per_cinco) * 5000
+            p_total_cinco.textContent = '$' + total_cinco.toLocaleString()
+
+            const b_dos = document.getElementById('b-dos');
+            const dosmil = document.getElementById('dosmil').value;
+            const p_total_dos = document.getElementById('p-total-dos');
+
+            var inputs_per_dos = document.getElementsByClassName('dos_per');
+            var suma_per_dos = 0;
+
+            for (var i = 0; i < inputs_per_dos.length; i++) {
+                var valor_per_dos = parseFloat(inputs_per_dos[i].value);
+                if (!isNaN(valor_per_dos)) {
+                    suma_per_dos += valor_per_dos;
+                }
+            }
+
+            b_dos.textContent = dosmil - suma_per_dos
+            var total_dos = (dosmil - suma_per_dos) * 2000
+            p_total_dos.textContent = '$' + total_dos.toLocaleString()
+
+            var total_recuento_final = total_cien + total_cincuenta + total_veinte + total_diez + total_cinco + total_dos;
+            totalrecuento.textContent = 'Total recuento de Dinero Físico: $' + total_recuento_final.toLocaleString()
+            totalrecuentof.value =total_recuento_final
+
+        }
+    </script>
+
+
+</body>
+
+</html>
